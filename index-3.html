@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f8ff" />
+  <title>Northstar Newsroom — News & Stories</title>
+  <style>
+    :root {
+      --bg:#f5f8ff; --surface:#ffffff; --surface-2:#edf3ff; --text:#15233b;
+      --muted:#687995; --line:#dce6f5; --blue:#1769e0; --blue-2:#0c4fb7;
+      --soft-blue:#e5efff; --shadow:0 12px 35px rgba(24,68,130,.08);
+    }
+    [data-theme="dark"] {
+      --bg:#090f1b; --surface:#111c2d; --surface-2:#17263c; --text:#eef4ff;
+      --muted:#9aabc5; --line:#263951; --blue:#65a3ff; --blue-2:#8bb8ff;
+      --soft-blue:#172d4d; --shadow:0 12px 35px rgba(0,0,0,.22);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;transition:background .2s,color .2s}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit;text-decoration:none}
+    .topline{height:4px;background:linear-gradient(90deg,var(--blue),#8bc4ff)}
+    .wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+    header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.5px;font-size:19px}
+    .brandmark{width:34px;height:34px;border-radius:10px;background:var(--blue);display:grid;place-items:center;color:white;font-weight:900}
+    .navlinks{display:flex;align-items:center;gap:25px;color:var(--muted);font-size:14px}
+    .navlinks a:hover{color:var(--blue)}
+    .navright{display:flex;align-items:center;gap:10px}
+    .btn{border:1px solid var(--line);background:var(--surface);color:var(--text);padding:10px 15px;border-radius:9px;font-weight:650;font-size:13px}
+    .btn:hover{border-color:var(--blue);color:var(--blue)}
+    .btn.primary{background:var(--blue);border-color:var(--blue);color:white}
+    .btn.primary:hover{background:var(--blue-2)}
+    .iconbtn{width:38px;height:38px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--text);font-size:17px}
+    .hero{padding:55px 0 34px;border-bottom:1px solid var(--line)}
+    .eyebrow{color:var(--blue);font-size:11px;letter-spacing:1.7px;text-transform:uppercase;font-weight:800}
+    h1{font-size:clamp(34px,5vw,54px);letter-spacing:-2px;line-height:1.05;margin:13px 0 12px}
+    .hero p{color:var(--muted);max-width:620px;line-height:1.7;margin:0}
+    .hero-bottom{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-top:30px}
+    .search{width:min(330px,100%);position:relative}
+    .search input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--text);outline:none}
+    .search span{position:absolute;left:14px;top:10px;color:var(--muted)}
+    main{padding:34px 0 70px}
+    .sectionhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .sectionhead h2{font-size:21px;letter-spacing:-.5px;margin:0}
+    .sectionhead span{font-size:12px;color:var(--muted)}
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+    .filter{padding:8px 13px;border:1px solid var(--line);border-radius:30px;color:var(--muted);font-size:12px;background:var(--surface)}
+    .filter.active{background:var(--soft-blue);border-color:var(--blue);color:var(--blue);font-weight:700}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:13px;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:pointer}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+    .thumb{height:174px;background:linear-gradient(135deg,#d9e9ff,#8cb9f7);display:grid;place-items:center;overflow:hidden;color:#174f9e;font-size:42px}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .cardbody{padding:17px}
+    .meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-bottom:11px}
+    .tag{color:var(--blue);font-weight:800;text-transform:uppercase;letter-spacing:.8px}
+    .card h3{font-size:17px;line-height:1.35;letter-spacing:-.3px;margin:0 0 9px}
+    .excerpt{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 17px}
+    .read{font-size:12px;color:var(--blue);font-weight:800}
+    .empty{padding:50px 15px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px;grid-column:1/-1}
+    .newsletter{margin-top:60px;background:var(--surface-2);border:1px solid var(--line);border-radius:16px;padding:30px;display:flex;justify-content:space-between;align-items:center;gap:25px}
+    .newsletter h2{margin:0 0 8px;font-size:22px}
+    .newsletter p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+    .subscribeform{display:flex;gap:8px;min-width:min(390px,100%)}
+    .subscribeform input{min-width:0;flex:1;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--text)}
+    footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:12px}
+    .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .overlay{position:fixed;inset:0;background:rgba(3,10,22,.65);z-index:30;display:none;align-items:center;justify-content:center;padding:20px;overflow:auto}
+    .overlay.show{display:flex}
+    .modal{width:min(760px,100%);max-height:92vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:25px;box-shadow:var(--shadow)}
+    .modalhead{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:20px}
+    .modalhead h2{font-size:20px;margin:0}
+    .close{border:0;background:var(--surface-2);color:var(--text);width:34px;height:34px;border-radius:8px;font-size:20px}
+    .article-view{width:min(800px,100%)}
+    .article-view h1{font-size:clamp(28px,4vw,42px);letter-spacing:-1.3px}
+    .article-view .article-meta{color:var(--muted);font-size:12px;margin:14px 0 22px}
+    .article-cover{width:100%;max-height:360px;object-fit:cover;border-radius:10px;margin:8px 0 20px}
+    .article-copy{font-size:16px;line-height:1.85;white-space:pre-wrap;color:var(--text)}
+    .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+    .field.full{grid-column:1/-1}
+    .field label{font-size:12px;font-weight:750;color:var(--muted)}
+    .field input,.field textarea,.field select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);outline:none}
+    .field textarea{min-height:130px;resize:vertical}
+    .hint{font-size:11px;color:var(--muted);line-height:1.55}
+    .adminbar{display:none;background:var(--soft-blue);border-bottom:1px solid var(--line);padding:10px 0}
+    .adminbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:12px;color:var(--blue)}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--surface);padding:11px 16px;border-radius:9px;font-size:13px;z-index:60;display:none;box-shadow:var(--shadow)}
+    .toast.show{display:block}
+    @media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.navlinks{display:none}.newsletter{align-items:flex-start;flex-direction:column}.subscribeform{min-width:0;width:100%}}
+    @media(max-width:560px){.wrap{width:min(100% - 28px,1120px)}.nav{height:65px}.brand{font-size:16px}.navright .btn{padding:9px 10px}.hero{padding:40px 0 25px}.hero-bottom{align-items:stretch;flex-direction:column}.search{width:100%}.grid{grid-template-columns:1fr;gap:15px}.thumb{height:190px}.newsletter{padding:22px}.subscribeform{flex-direction:column}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.modal{padding:18px}}
+  </style>
+</head>
+<body data-theme="light">
+  <div class="topline"></div>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#" aria-label="Northstar Newsroom home"><span class="brandmark">N</span><span id="brandName">NORTHSTAR <span style="color:var(--blue)">NEWSROOM</span></span></a>
+      <nav class="navlinks"><a href="#latest">Latest</a><a href="#newsletter">Newsletter</a><a href="#about">About</a></nav>
+      <div class="navright">
+        <button class="iconbtn" id="themeToggle" title="Switch theme" aria-label="Switch theme">☾</button>
+        <button class="btn" id="adminOpen">Publisher</button>
+        <button class="btn primary" id="subscribeTop">Subscribe</button>
+      </div>
+    </div>
+  </header>
+  <div class="adminbar" id="adminbar"><div class="wrap"><span>Publisher mode is active on this device.</span><button class="btn" id="logout">Exit publisher mode</button></div></div>
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">The newsroom · Updates, ideas & perspectives</div>
+      <h1>Stories worth<br>paying attention to.</h1>
+      <p>Official updates, thoughtful articles and behind-the-scenes stories — all in one place. Explore the latest from our newsroom.</p>
+      <div class="hero-bottom">
+        <div><div class="eyebrow" style="letter-spacing:1px">Independent thinking. Clear reporting.</div></div>
+        <div class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Search news and articles..." aria-label="Search news and articles"></div>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap" id="latest">
+    <div class="sectionhead"><h2>Latest stories</h2><span id="storyCount"></span></div>
+    <div class="filters" id="filters">
+      <button class="filter active" data-category="All">All stories</button>
+      <button class="filter" data-category="News">News</button>
+      <button class="filter" data-category="Updates">Updates</button>
+      <button class="filter" data-category="Blog">Blog</button>
+      <button class="filter" data-category="Announcements">Announcements</button>
+    </div>
+    <div class="grid" id="storyGrid"></div>
+
+    <section class="newsletter" id="newsletter">
+      <div><div class="eyebrow">Stay in the loop</div><h2>Get the newsroom briefing.</h2><p>Subscribe to receive new stories and important updates in your inbox.</p></div>
+      <form class="subscribeform" id="subscribeForm"><input type="email" id="subscriberEmail" placeholder="Your email address" required><button class="btn primary">Subscribe</button></form>
+    </section>
+  </main>
+
+  <footer id="about"><div class="wrap foot"><span>© <span id="year"></span> Northstar Newsroom. All rights reserved.</span><span>News · Ideas · Perspectives</span></div></footer>
+
+  <div class="overlay" id="articleOverlay"><article class="modal article-view"><div class="modalhead"><span class="eyebrow">Newsroom article</span><button class="close" data-close="articleOverlay">×</button></div><div id="articleContent"></div></article></div>
+
+  <div class="overlay" id="adminOverlay"><section class="modal">
+    <div class="modalhead"><h2 id="adminTitle">Publisher access</h2><button class="close" data-close="adminOverlay">×</button></div>
+    <div id="loginPanel">
+      <p class="hint">This demo publisher area is protected by a local passcode. Before going public, replace this with Firebase Authentication and secure publishing permissions.</p>
+      <div class="field"><label for="adminPassword">Publisher passcode</label><input id="adminPassword" type="password" placeholder="Enter demo passcode"></div>
+      <button class="btn primary" id="loginButton">Continue</button>
+      <p class="hint">Demo passcode: <strong>editor123</strong> (change it in the HTML before sharing this prototype).</p>
+    </div>
+    <div id="editorPanel" style="display:none">
+      <p class="hint">Create a news post or blog. In this standalone preview, posts and uploaded images are saved in this browser only.</p>
+      <form id="publishForm">
+        <div class="formgrid">
+          <div class="field"><label for="postCategory">Category</label><select id="postCategory"><option>News</option><option>Updates</option><option>Blog</option><option>Announcements</option></select></div>
+          <div class="field"><label for="postDate">Publication date</label><input id="postDate" type="date" required></div>
+          <div class="field full"><label for="postTitle">Article title</label><input id="postTitle" maxlength="130" placeholder="Write a clear headline" required></div>
+          <div class="field full"><label for="postExcerpt">Short summary</label><textarea id="postExcerpt" style="min-height:75px" maxlength="240" placeholder="A short preview shown on the newsroom homepage" required></textarea></div>
+          <div class="field full"><label for="postBody">Full article</label><textarea id="postBody" placeholder="Write the complete article here..." required></textarea></div>
+          <div class="field full"><label for="postImage">Cover image (optional)</label><input id="postImage" type="file" accept="image/*"><span class="hint">For the demo, use a reasonably small image. A real public newsroom should store images in Firebase Storage.</span></div>
+        </div>
+        <button class="btn primary" type="submit">Publish story</button>
+      </form>
+      <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
+      <div class="sectionhead"><h2 style="font-size:16px">Manage stories</h2><span>Delete demo posts</span></div>
+      <div id="manageList"></div>
+    </div>
+  </section></div>
+
+  <div class="overlay" id="subscribeOverlay"><section class="modal" style="width:min(460px,100%)">
+    <div class="modalhead"><h2>Choose your subscription</h2><button class="close" data-close="subscribeOverlay">×</button></div>
+    <p style="color:var(--muted);font-size:13px;line-height:1.65">Support independent journalism and get the full newsroom experience. Choose a plan below.</p>
+    <div style="border:1px solid var(--line);border-radius:11px;padding:17px;margin:15px 0">
+      <div class="eyebrow">Reader</div><h2 style="margin:8px 0">Free</h2><p class="hint">Read public stories and receive occasional updates.</p>
+    </div>
+    <div style="border:1px solid var(--blue);border-radius:11px;padding:17px;background:var(--soft-blue)">
+      <div class="eyebrow">Supporter</div><h2 style="margin:8px 0">₹199 <small style="font-size:12px;font-weight:500">/ month</small></h2><p class="hint">Support the newsroom and unlock subscriber-only articles (once payment and access control are connected).</p>
+      <button class="btn primary" id="paidSubscribe" style="width:100%">Continue to subscribe</button>
+    </div>
+    <p class="hint" style="margin-top:15px">Payment is a placeholder in this HTML preview. Connect a payment provider (such as Razorpay) and verify payments on a trusted backend before activating paid access.</p>
+  </section></div>
+  <div class="toast" id="toast"></div>
+
+<script>
+  // ---------------------------------------------------------------
+  // QUICK SETUP
+  // 1. Change NEWSROOM_NAME and the demo publisher passcode below.
+  // 2. For a real public site, connect Firebase Auth, Firestore and Storage.
+  // 3. Add a payment provider + server-side payment verification for paid subscriptions.
+  // ---------------------------------------------------------------
+  const NEWSROOM_NAME = "NORTHSTAR NEWSROOM";
+  const DEMO_PASSCODE = "editor123";
+  const STORAGE_KEY = "northstar_newsroom_posts_v1";
+  document.title = NEWSROOM_NAME + " — News & Stories";
+  document.getElementById("brandName").innerHTML = NEWSROOM_NAME.replace(" ", " <span style='color:var(--blue)'>") + "</span>";
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const starterPosts = [
+    {id:"sample-1",category:"News",date:"2026-11-18",title:"A new chapter begins: newsroom launch announcement",excerpt:"An introduction to our newsroom, the stories we plan to tell and the ideas that will shape our coverage.",body:"Welcome to our newsroom. This is where we will share official announcements, original reporting, updates and thoughtful perspectives.\\n\\nOur aim is to make important information accessible, clear and useful. Check back regularly for new stories and updates.",image:"",locked:false},
+    {id:"sample-2",category:"Updates",date:"2026-11-12",title:"What we're working on this month",excerpt:"A short look at upcoming projects, editorial priorities and what readers can expect next.",body:"We are working on a range of stories and projects. This update is a place to share progress, explain what is coming next and keep our readers informed.\\n\\nMore details will be published here as projects develop.",image:"",locked:false},
+    {id:"sample-3",category:"Blog",date:"2026-11-05",title:"Why good stories deserve a thoughtful newsroom",excerpt:"A note on curiosity, context and the value of taking the time to understand a story.",body:"A good story does more than pass along information. It gives readers context, raises useful questions and helps them understand why something matters.\\n\\nThis blog is where we will share ideas, observations and perspectives from our team.",image:"",locked:false}
+  ];
+  let posts = loadPosts();
+  let activeCategory = "All";
+  let publisherActive = false;
+
+  function loadPosts(){
+    try { const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)); return Array.isArray(saved)?saved:starterPosts; }
+    catch(e){ return starterPosts; }
+  }
+  function savePosts(){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(posts));}catch(e){notify("Storage is full. Try a smaller image.");} }
+  function escapeHTML(value=""){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+  function prettyDate(date){if(!date)return "";return new Date(date+"T12:00:00").toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"});}
+  function notify(message){const t=document.getElementById("toast");t.textContent=message;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600);}
+  function render(){
+    const query=document.getElementById("searchInput").value.trim().toLowerCase();
+    const visible=posts.filter(p=>(activeCategory==="All"||p.category===activeCategory)&&(!query||(p.title+" "+p.excerpt+" "+p.body).toLowerCase().includes(query))).sort((a,b)=>b.date.localeCompare(a.date));
+    document.getElementById("storyCount").textContent=visible.length+" "+(visible.length===1?"story":"stories");
+    const grid=document.getElementById("storyGrid");
+    grid.innerHTML=visible.length?visible.map(p=>`
+      <article class="card" tabindex="0" role="button" aria-label="Read ${escapeHTML(p.title)}" data-open="${escapeHTML(p.id)}">
+        <div class="thumb">${p.image?`<img src="${p.image}" alt="">`:"✦"}</div>
+        <div class="cardbody"><div class="meta"><span class="tag">${escapeHTML(p.category)}</span><span>${prettyDate(p.date)}</span></div>
+          <h3>${escapeHTML(p.title)}</h3><p class="excerpt">${escapeHTML(p.excerpt)}</p><span class="read">READ ARTICLE →</span>
+        </div>
+      </article>`).join(""):`<div class="empty">No stories found. Try another search or category.</div>`;
+    grid.querySelectorAll("[data-open]").forEach(card=>{
+      const open=()=>showArticle(card.dataset.open);
+      card.addEventListener("click",open);card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}});
+    });
+    if(publisherActive)renderManage();
+  }
+  function showArticle(id){
+    const p=posts.find(x=>x.id===id);if(!p)return;
+    document.getElementById("articleContent").innerHTML=`
+      <div class="eyebrow">${escapeHTML(p.category)}</div><h1>${escapeHTML(p.title)}</h1>
+      <div class="article-meta">Published ${prettyDate(p.date)} · ${NEWSROOM_NAME}</div>
+      ${p.image?`<img class="article-cover" src="${p.image}" alt="">`:""}
+      <div class="article-copy">${escapeHTML(p.body)}</div>`;
+    document.getElementById("articleOverlay").classList.add("show");
+  }
+  function openModal(id){document.getElementById(id).classList.add("show");}
+  function closeModal(id){document.getElementById(id).classList.remove("show");}
+  document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>closeModal(b.dataset.close)));
+  document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o)o.classList.remove("show");}));
+  document.getElementById("themeToggle").addEventListener("click",()=>{
+    const dark=document.body.dataset.theme!=="dark";document.body.dataset.theme=dark?"dark":"light";
+    document.getElementById("themeToggle").textContent=dark?"☀":"☾";
+    document.querySelector('meta[name="theme-color"]').content=dark?"#090f1b":"#f5f8ff";
+    try{localStorage.setItem("northstar_theme",dark?"dark":"light");}catch(e){}
+  });
+  try{const theme=localStorage.getItem("northstar_theme");if(theme){document.body.dataset.theme=theme;document.getElementById("themeToggle").textContent=theme==="dark"?"☀":"☾";}}catch(e){}
+  document.getElementById("filters").addEventListener("click",e=>{
+    const b=e.target.closest("[data-category]");if(!b)return;
+    activeCategory=b.dataset.category;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render();
+  });
+  document.getElementById("searchInput").addEventListener("input",render);
+  document.getElementById("subscribeTop").addEventListener("click",()=>openModal("subscribeOverlay"));
+  document.getElementById("paidSubscribe").addEventListener("click",()=>notify("Payment is not connected yet. Add a payment provider before launch."));
+  document.getElementById("subscribeForm").addEventListener("submit",e=>{
+    e.preventDefault();const email=document.getElementById("subscriberEmail").value.trim();
+    if(email){notify("Thanks for subscribing! Connect Firebase to store subscriber emails.");e.target.reset();}
+  });
+  document.getElementById("adminOpen").addEventListener("click",()=>openModal("adminOverlay"));
+  document.getElementById("loginButton").addEventListener("click",()=>{
+    if(document.getElementById("adminPassword").value===DEMO_PASSCODE){
+      publisherActive=true;document.getElementById("loginPanel").style.display="none";document.getElementById("editorPanel").style.display="block";
+      document.getElementById("adminTitle").textContent="Manage newsroom";document.getElementById("adminbar").style.display="block";
+      document.getElementById("postDate").value=new Date().toISOString().slice(0,10);renderManage();
+    }else notify("Incorrect passcode.");
+  });
+  document.getElementById("logout").addEventListener("click",()=>{
+    publisherActive=false;document.getElementById("adminbar").style.display="none";document.getElementById("editorPanel").style.display="none";
+    document.getElementById("loginPanel").style.display="block";document.getElementById("adminTitle").textContent="Publisher access";document.getElementById("adminPassword").value="";
+  });
+  document.getElementById("publishForm").addEventListener("submit",async e=>{
+    e.preventDefault();if(!publisherActive)return;
+    const file=document.getElementById("postImage").files[0];
+    let image="";
+    if(file){if(file.size>900000){notify("Please use an image smaller than 900 KB for this local demo.");return;}
+      image=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file);});
+    }
+    posts.unshift({id:"post-"+Date.now(),category:document.getElementById("postCategory").value,date:document.getElementById("postDate").value,
+      title:document.getElementById("postTitle").value.trim(),excerpt:document.getElementById("postExcerpt").value.trim(),
+      body:document.getElementById("postBody").value.trim(),image,locked:false});
+    savePosts();e.target.reset();document.getElementById("postDate").value=new Date().toISOString().slice(0,10);
+    render();renderManage();notify("Story published on this browser.");closeModal("adminOverlay");
+  });
+  function renderManage(){
+    const box=document.getElementById("manageList");
+    box.innerHTML=posts.length?posts.map(p=>`<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)"><span style="font-size:12px;line-height:1.4">${escapeHTML(p.title)}</span><button class="btn" data-delete="${escapeHTML(p.id)}" style="color:#d44">Delete</button></div>`).join(""):"<p class='hint'>No stories published yet.</p>";
+    box.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",()=>{
+      if(confirm("Delete this story from this browser?")){posts=posts.filter(p=>p.id!==b.dataset.delete);savePosts();render();renderManage();notify("Story deleted.");}
+    }));
+  }
+  render();
+</script>
+</body>
+</html>
