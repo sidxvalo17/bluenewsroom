@@ -128,6 +128,8 @@
     <div class="filters" id="filters">
       <button class="filter active" data-category="All">All stories</button>
       <button class="filter" data-category="News">News</button>
+      <button class="filter" data-category="Entertainment">Entertainment</button>
+      <button class="filter" data-category="Current Affairs">Current Affairs</button>
       <button class="filter" data-category="Updates">Updates</button>
       <button class="filter" data-category="Blog">Blog</button>
       <button class="filter" data-category="Announcements">Announcements</button>
@@ -156,7 +158,7 @@
       <p class="hint">Create a news post or blog. In this standalone preview, posts and uploaded images are saved in this browser only.</p>
       <form id="publishForm">
         <div class="formgrid">
-          <div class="field"><label for="postCategory">Category</label><select id="postCategory"><option>News</option><option>Updates</option><option>Blog</option><option>Announcements</option></select></div>
+          <div class="field"><label for="postCategory">Category</label><select id="postCategory"><option>News</option><option>Entertainment</option><option>Current Affairs</option><option>Updates</option><option>Blog</option><option>Announcements</option></select></div>
           <div class="field"><label for="postDate">Publication date</label><input id="postDate" type="date" required></div>
           <div class="field full"><label for="postTitle">Article title</label><input id="postTitle" maxlength="130" placeholder="Write a clear headline" required></div>
           <div class="field full"><label for="postExcerpt">Short summary</label><textarea id="postExcerpt" style="min-height:75px" maxlength="240" placeholder="A short preview shown on the newsroom homepage" required></textarea></div>
@@ -171,17 +173,20 @@
     </div>
   </section></div>
 
-  <div class="overlay" id="subscribeOverlay"><section class="modal" style="width:min(460px,100%)">
-    <div class="modalhead"><h2>Choose your subscription</h2><button class="close" data-close="subscribeOverlay">×</button></div>
-    <p style="color:var(--muted);font-size:13px;line-height:1.65">Support independent journalism and get the full newsroom experience. Choose a plan below.</p>
-    <div style="border:1px solid var(--line);border-radius:11px;padding:17px;margin:15px 0">
-      <div class="eyebrow">Reader</div><h2 style="margin:8px 0">Free</h2><p class="hint">Read public stories and receive occasional updates.</p>
-    </div>
-    <div style="border:1px solid var(--blue);border-radius:11px;padding:17px;background:var(--soft-blue)">
-      <div class="eyebrow">Supporter</div><h2 style="margin:8px 0">₹199 <small style="font-size:12px;font-weight:500">/ month</small></h2><p class="hint">Support the newsroom and unlock subscriber-only articles (once payment and access control are connected).</p>
-      <button class="btn primary" id="paidSubscribe" style="width:100%">Continue to subscribe</button>
-    </div>
-    <p class="hint" style="margin-top:15px">Payment is a placeholder in this HTML preview. Connect a payment provider (such as Razorpay) and verify payments on a trusted backend before activating paid access.</p>
+  <div class="overlay" id="subscribeOverlay"><section class="modal" style="width:min(520px,100%)">
+    <div class="modalhead"><h2>Stay connected</h2><button class="close" data-close="subscribeOverlay">×</button></div>
+    <p style="color:var(--muted);font-size:13px;line-height:1.65;margin-top:0">Share your details to hear about our upcoming events, and tell us if you would also like to subscribe to the newsroom.</p>
+    <form id="leadForm">
+      <div class="formgrid">
+        <div class="field"><label for="leadName">Full name</label><input id="leadName" required placeholder="Your name"></div>
+        <div class="field"><label for="leadEmail">Email</label><input id="leadEmail" type="email" required placeholder="you@example.com"></div>
+        <div class="field"><label for="leadPhone">Phone / WhatsApp</label><input id="leadPhone" type="tel" placeholder="+91 ..."></div>
+        <div class="field"><label for="leadCity">City</label><input id="leadCity" placeholder="e.g. Lucknow"></div>
+        <div class="field full"><label for="leadInterest">I'm interested in</label><select id="leadInterest"><option>Updates about future events</option><option>Newsroom subscription</option><option>Both events and subscription</option></select></div>
+        <div class="field full"><label for="leadNote">Anything else? (optional)</label><textarea id="leadNote" style="min-height:70px" placeholder="Topics you care about, questions, etc."></textarea></div>
+      </div>
+      <button class="btn primary" type="submit" style="width:100%">Submit my details</button>
+    </form>
   </section></div>
   <div class="toast" id="toast"></div>
 
@@ -194,16 +199,133 @@
   // ---------------------------------------------------------------
   const NEWSROOM_NAME = "NORTHSTAR NEWSROOM";
   const DEMO_PASSCODE = "editor123";
-  const STORAGE_KEY = "northstar_newsroom_posts_v1";
+  const STORAGE_KEY = "northstar_newsroom_posts_v2";
   document.title = NEWSROOM_NAME + " — News & Stories";
   document.getElementById("brandName").innerHTML = NEWSROOM_NAME.replace(" ", " <span style='color:var(--blue)'>") + "</span>";
   document.getElementById("year").textContent = new Date().getFullYear();
 
   const starterPosts = [
-    {id:"sample-1",category:"News",date:"2026-11-18",title:"A new chapter begins: newsroom launch announcement",excerpt:"An introduction to our newsroom, the stories we plan to tell and the ideas that will shape our coverage.",body:"Welcome to our newsroom. This is where we will share official announcements, original reporting, updates and thoughtful perspectives.\\n\\nOur aim is to make important information accessible, clear and useful. Check back regularly for new stories and updates.",image:"",locked:false},
-    {id:"sample-2",category:"Updates",date:"2026-11-12",title:"What we're working on this month",excerpt:"A short look at upcoming projects, editorial priorities and what readers can expect next.",body:"We are working on a range of stories and projects. This update is a place to share progress, explain what is coming next and keep our readers informed.\\n\\nMore details will be published here as projects develop.",image:"",locked:false},
-    {id:"sample-3",category:"Blog",date:"2026-11-05",title:"Why good stories deserve a thoughtful newsroom",excerpt:"A note on curiosity, context and the value of taking the time to understand a story.",body:"A good story does more than pass along information. It gives readers context, raises useful questions and helps them understand why something matters.\\n\\nThis blog is where we will share ideas, observations and perspectives from our team.",image:"",locked:false}
-  ];
+ {
+  "id": "news-yogi-mother",
+  "category": "News",
+  "date": "2026-11-20",
+  "title": "CM Yogi Adityanath's mother passes away; chief minister cancels all programmes",
+  "excerpt": "Reports say she died at the family's ancestral village in Uttarakhand's Pauri district. Leaders across the state have expressed condolences.",
+  "body": "Uttar Pradesh Chief Minister Yogi Adityanath's mother passed away on Friday, 20 November 2026, according to reports from Lucknow and Uttarakhand. She is said to have breathed her last at the family's ancestral village in Uttarakhand's Pauri district.\n\nSoon after the news came in, the chief minister cancelled all of his scheduled programmes. He was reported to be travelling directly to Uttarakhand from Lucknow to be with his family.\n\nCondolences poured in from across the political spectrum. Deputy Chief Ministers Keshav Prasad Maurya and Brajesh Pathak were among the leaders who expressed their grief publicly.\n\nThe news comes at a busy time in state politics, with parties already gearing up for the 2027 Uttar Pradesh assembly elections. Details of the last rites had not been widely reported at the time of writing.\n\nThis is a developing story and will be updated as more verified information becomes available.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "news-sultanpur-highway",
+  "category": "News",
+  "date": "2026-08-15",
+  "title": "Four labourers killed as brick-laden tractor-trolley overturns on Lucknow-Sultanpur highway",
+  "excerpt": "A broken hitch pin sent the tractor out of control near Gosainganj in the early hours. All four men on board died.",
+  "body": "Four labourers lost their lives in the early hours of Saturday, 15 August 2026, when a tractor-trolley loaded with bricks overturned on the Lucknow-Sultanpur highway in Lucknow's Gosainganj area, near the district boundary.\n\nAccording to police, the men had loaded bricks at a kiln in the Kothi police station area and were heading towards Lucknow. The hitch pin joining the tractor and the trolley is said to have snapped suddenly. The tractor lost control and toppled onto the highway barricading, trapping all four men beneath it.\n\nPolice, the fire service and a highway team reached the spot and used a crane to lift the tractor and pull the men out. Three were declared dead at the Gosainganj community health centre. The fourth died while being taken to KGMU in Lucknow. The victims were reported to be between 25 and 35 years old and from villages in the area.\n\nThe Kothi station in-charge confirmed the accident, and police began their legal proceedings and an inquiry. The incident once again shows how overloaded and poorly maintained farm vehicles on highways put workers' lives at risk.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "ent-ramayana",
+  "category": "Entertainment",
+  "date": "2026-11-14",
+  "title": "Ramayana: Part One roars at the box office as Ranbir Kapoor's epic crosses 900 crore worldwide",
+  "excerpt": "Nitesh Tiwari's two-part mythological epic opened worldwide on 6 November and has had a record-setting first week.",
+  "body": "Nitesh Tiwari's Ramayana: Part One reached cinemas worldwide on 6 November 2026, two days before Diwali. Ranbir Kapoor plays Lord Ram, Sai Pallavi plays Sita and Yash plays Ravana, with Sunny Deol as Hanuman and Ravie Dubey as Lakshman. The film is produced by Namit Malhotra's Prime Focus and distributed internationally by Sony Pictures.\n\nTrade tracker Sacnilk reported about 64.85 crore rupees net in India on opening day, with roughly 127.50 crore gross worldwide, though other outlets quoted somewhat different numbers. Some reports noted it opened below Adipurush's first day. But it picked up strongly over the Diwali weekend, and its first Monday was reported to be the biggest ever at the Indian box office.\n\nBy the end of the first week, reports put India net earnings above 500 crore rupees and worldwide gross above 900 crore. Later reports suggested it had gone past 1,100 crore by day nine. Figures vary by source, so treat them as estimates.\n\nThe film is planned as two parts. Part Two was announced for Diwali 2027, and the film is expected to stream on JioHotstar after its theatrical run.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "ent-gta6",
+  "category": "Entertainment",
+  "date": "2026-11-19",
+  "title": "GTA 6 is finally here: Rockstar's Vice City return arrives to rave reviews",
+  "excerpt": "After a 13-year wait, Grand Theft Auto VI launched on 19 November on PS5 and Xbox Series X|S.",
+  "body": "Rockstar Games released Grand Theft Auto VI on 19 November 2026 for PlayStation 5 and Xbox Series X|S, more than a decade after GTA V. The game takes players back to Vice City and the fictional state of Leonida, with Lucia Caminos and Jason Duval as its two protagonists.\n\nCritics have been extremely generous. Reports said the game debuted with a Metacritic score of 99, and its launch drew record livestream audiences as streamers rushed to play.\n\nThe release hasn't been perfectly smooth. Players reported glitches, audio problems and some crashes, and PlayStation Network had sign-in outages around launch. Most outlets stressed that these were isolated problems and not a repeat of Cyberpunk 2077's rocky launch. We cover the bugs in more detail in our Updates section.\n\nWhatever the glitches, one of the biggest entertainment launches of the decade has landed, and fans are already exploring every corner of the map.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "ent-jjk",
+  "category": "Entertainment",
+  "date": "2026-11-19",
+  "title": "Jujutsu Kaisen: Culling Game continues, but Season 3 Part 2 still has no release date",
+  "excerpt": "MAPPA has confirmed the next chapter is in production, though reports point to a 2027 return.",
+  "body": "Jujutsu Kaisen fans are asking when the story returns after Season 3 Part 1. That first part ran 12 episodes and ended on 26 March 2026 on a cliffhanger in the middle of the Culling Game arc, the longest arc in Gege Akutami's manga.\n\nMAPPA has confirmed that the next instalment, which covers the rest of the Culling Game, is in production, and a teaser trailer was shown in March 2026. However, no official release date has been announced. Some reports based on Japanese broadcast schedules suggest the return may slip into 2027.\n\nThere is also confusion about the name. Some outlets say the continuation will be billed as Season 4 (Culling Game Part 2) rather than Season 3 Part 2, though the story it adapts is the same.\n\nUntil an official date arrives, fans can rewatch Seasons 1 to 3 on Crunchyroll, and Netflix carries Seasons 2 and 3 in many regions. We will update this story the moment MAPPA announces a date.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "ca-trilateral",
+  "category": "Current Affairs",
+  "date": "2026-11-19",
+  "title": "Trump, Putin and Xi hold first-ever trilateral summit at APEC; Kim Jong Un does not show",
+  "excerpt": "The three leaders met in Shenzhen and discussed nuclear risks and arms reduction. A Trump-Kim meeting did not happen.",
+  "body": "US President Donald Trump, Russian President Vladimir Putin and Chinese President Xi Jinping held their first trilateral meeting on 19 November 2026 in Shenzhen, China, on the sidelines of the Asia-Pacific Economic Cooperation (APEC) summit.\n\nBefore the trip, Trump had said North Korean leader Kim Jong Un might join, adding that it was up to Xi. In the end Kim did not take part, so there was no three-way meeting of Trump, Putin and Kim, and no Trump-Kim meeting either. Kim's sister Kim Yo Jong had earlier signalled that Pyongyang saw no need to sit face to face with Washington. Trump said afterwards that a meeting with Kim could come at some point.\n\nThe leaders reportedly discussed nuclear risks and arms reduction. Chinese state media said the situation on the Korean Peninsula was among the topics. US officials had said Trump also planned to raise Iran, but Ukraine was not expected to be on the agenda of this meeting.\n\nThe summit is notable because it put the leaders of the three biggest nuclear powers around one table for the first time.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "ca-quad",
+  "category": "Current Affairs",
+  "date": "2026-11-17",
+  "title": "Modi, Trump, Takaichi and Albanese meet at Quad Leaders' Summit in Manila",
+  "excerpt": "The first leaders-level Quad meeting in two years produced new initiatives on maritime security, AI and critical minerals.",
+  "body": "Prime Minister Narendra Modi, US President Donald Trump, Japanese Prime Minister Sanae Takaichi and Australian Prime Minister Anthony Albanese met in Manila on 17 November 2026 for the Quad Leaders' Summit, held on the sidelines of the 49th ASEAN Summit. It was the first leaders-level Quad meeting in two years and the first since Trump returned to the White House. It was also Takaichi's first Quad summit.\n\nIn their joint statement the leaders reaffirmed a free, open and peaceful Indo-Pacific, backed ASEAN's central role, and opposed attempts to change the status quo through force or coercion, including economic coercion.\n\nAnnounced outcomes included new initiatives on maritime security, artificial intelligence and cybersecurity, an AI accelerator, work on critical minerals and a first joint maritime patrol-aircraft exercise.\n\nModi described the Quad as a constructive and trusted partnership for India. Trump called his fellow leaders phenomenal people and close friends. After Manila, the leaders were due to travel on to Shenzhen for the APEC summit.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "blog-road-safety",
+  "category": "Blog",
+  "date": "2026-11-20",
+  "title": "Ten habits that can save your life on the road",
+  "excerpt": "Most road deaths are preventable. Here are simple habits every rider, driver and pedestrian should follow.",
+  "body": "Every road accident has a story, and many of them could have ended differently with one small change in behaviour. Here are ten habits worth building.\n\n1. Wear a helmet, properly strapped. On a two-wheeler it is the single most effective protection you have. Pillion riders need one too.\n\n2. Buckle up in every seat. Seat belts matter in the back as well as the front.\n\n3. Slow down. Speed shortens your reaction time and makes every crash more severe, especially near villages, schools and highway entry points.\n\n4. Keep your phone away. A message can wait. Even a two-second glance at a screen covers a long distance at highway speed.\n\n5. Never drive after drinking or when drowsy. Pull over and rest if your eyes feel heavy.\n\n6. Don't overload vehicles. Tractor-trolleys, trucks and autos carrying more than they should are hard to control and brake.\n\n7. Maintain your vehicle. Check brakes, tyres, lights and couplings before long trips. A small worn part can cause a big accident.\n\n8. Stay visible at night. Use lights and reflectors, and dip your headlights for oncoming traffic.\n\n9. Respect pedestrians. Slow down at crossings, and as a pedestrian, use footpaths and crossings, not the middle of the road.\n\n10. Keep your distance. A safe gap gives you room to stop.\n\nRoad safety isn't only about rules. It is about getting everyone home. Share this with someone who drives or rides every day.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "upd-gta6-bugs",
+  "category": "Updates",
+  "date": "2026-11-20",
+  "title": "GTA 6 launch bugs: flying cars, vanishing characters and server outages",
+  "excerpt": "Players are sharing glitch clips from Vice City. Here is what has been reported so far.",
+  "body": "Within hours of GTA 6 going live on 19 November, players and streamers were posting glitch videos. Here is what outlets have reported.\n\nGameplay and visual glitches: Clips show vehicles behaving oddly in traffic, characters disappearing, physics going wrong and police encounters acting strangely. In one widely shared clip, a giant ship tilts sideways near a bridge the player is driving across.\n\nAudio and stability: Players also reported audio problems, visual glitches and some crashes, though how often these occur is unclear.\n\nNetwork issues: PlayStation Network had sign-in problems on 18 November, and another outage was reported around launch night, which affected online access for some players. PlayStation owners were also told to update their consoles before playing.\n\nHow serious is it? Comparisons with Cyberpunk 2077's 2020 launch quickly appeared, but several outlets argued the situation is nowhere near as bad. Reviews remain very positive, and these look like the usual teething problems of a huge open-world game.\n\nWhat's next: Rockstar is expected to fix issues through patches. We did not find an official patch schedule at the time of writing, so check Rockstar's channels for notes.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "ann-pattinson-bond",
+  "category": "Announcements",
+  "date": "2026-11-16",
+  "title": "Robert Pattinson announced as the new James Bond",
+  "excerpt": "Amazon MGM Studios confirmed on 16 November that Pattinson will succeed Daniel Craig as 007.",
+  "body": "Amazon MGM Studios and the official 007 accounts confirmed on 16 November 2026 that Robert Pattinson is the next James Bond, ending one of the longest casting searches in the franchise's history. The announcement came with a short teaser clip showing Pattinson in the role.\n\nPattinson becomes the seventh actor to play Bond in the official film series, succeeding Daniel Craig, whose run ended with No Time to Die in 2021. The 40-year-old actor, known for Twilight, The Batman and Tenet, said it is an honour of a lifetime.\n\nReports say the new films will be directed by Denis Villeneuve with scripts by Stephen Knight. Filming is expected to begin in early 2027, but no release date has been announced yet.\n\nFans around the world have been debating the choice since the announcement, and the casting has already become one of the most talked-about entertainment stories of the year.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "sample-2",
+  "category": "Updates",
+  "date": "2026-11-12",
+  "title": "What we're working on this month",
+  "excerpt": "A short look at upcoming projects, editorial priorities and what readers can expect next.",
+  "body": "We are working on a range of stories and projects. This update is a place to share progress, explain what is coming next and keep our readers informed.\n\nMore details will be published here as projects develop.",
+  "image": "",
+  "locked": false
+ },
+ {
+  "id": "sample-1",
+  "category": "News",
+  "date": "2026-11-18",
+  "title": "A new chapter begins: newsroom launch announcement",
+  "excerpt": "An introduction to our newsroom, the stories we plan to tell and the ideas that will shape our coverage.",
+  "body": "Welcome to our newsroom. This is where we will share official announcements, original reporting, updates and thoughtful perspectives.\n\nOur aim is to make important information accessible, clear and useful. Check back regularly for new stories and updates.",
+  "image": "",
+  "locked": false
+ }
+];
   let posts = loadPosts();
   let activeCategory = "All";
   let publisherActive = false;
@@ -260,7 +382,13 @@
   });
   document.getElementById("searchInput").addEventListener("input",render);
   document.getElementById("subscribeTop").addEventListener("click",()=>openModal("subscribeOverlay"));
-  document.getElementById("paidSubscribe").addEventListener("click",()=>notify("Payment is not connected yet. Add a payment provider before launch."));
+  // Subscriber/event details are kept in this browser only. To actually receive them, connect Firebase/Formspree here.
+  document.getElementById("leadForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    const lead={name:document.getElementById("leadName").value.trim(),email:document.getElementById("leadEmail").value.trim(),phone:document.getElementById("leadPhone").value.trim(),city:document.getElementById("leadCity").value.trim(),interest:document.getElementById("leadInterest").value,note:document.getElementById("leadNote").value.trim(),at:new Date().toISOString()};
+    try{const all=JSON.parse(localStorage.getItem("northstar_leads_v1")||"[]");all.push(lead);localStorage.setItem("northstar_leads_v1",JSON.stringify(all));}catch(err){}
+    notify("Thanks, "+lead.name.split(" ")[0]+"! We'll be in touch.");e.target.reset();closeModal("subscribeOverlay");
+  });
   document.getElementById("subscribeForm").addEventListener("submit",e=>{
     e.preventDefault();const email=document.getElementById("subscriberEmail").value.trim();
     if(email){notify("Thanks for subscribing! Connect Firebase to store subscriber emails.");e.target.reset();}
